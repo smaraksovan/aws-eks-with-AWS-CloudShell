@@ -1,0 +1,51 @@
+# Setting up a working environment for Amazon EKS with AWS CloudShell
+______________________________________________________________________
+
+# Introduction
+______________________________________________________________________
+AWS Cloud Shell was announced at the Werner Vogels Keynote at AWS re:Invent 2020.
+
+🚀 AWS CloudShell – Command-Line Access to AWS Resources aws.amazon.com/jp/blogs/aws/aws-cloudshell-..
+
+AWS CloudShell is a browser-based shell that can be launched directly from the AWS management console.
+The shell can use Bash, PowerShell, Z shell, and comes preconfigured with tools to support the AWS CLI and other major development languages.
+
+The pre-setup tools are described in the following document.
+
+AWS CloudShell compute environment: specifications and software docs.aws.amazon.com/cloudshell/latest/userg..
+
+For example, kubectl is not installed.
+Let's prepare the working environment for Amazon EKS by yourself.
+
+# Setting up
+________________________________________________________________________
+
+1- Just click on the cloudshell icon on the managed console to launch CloudShell.
+
+##### Note #####
+In this article, not discuss how to link clusters and IAM users/roles.
+If you want Docker, use Cloud9!
+
+2-  The installation directory is set to $HOME/.local/bin
+    This is because the persistent storage that is maintained between sessions is $HOME. (See the second half of this article for details.)
+ 
+ 3-
+ # Create directory
+mkdir -p $HOME/.local/bin
+cd $HOME/.local/bin
+
+4-
+# kubectl
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.13/bin/linux/amd64/kubectl
+chmod +x kubectl
+
+5-
+# Create $HOME/.kube/config
+aws eks update-kubeconfig --name <YOUR_CLUSTER_NAME>
+
+6-
+aws eks --region ap-south-1 describe-cluster --name k8s-alpha-1 --query cluster.status
+
+7-
+kubectl get services and kubectl get pod
+
